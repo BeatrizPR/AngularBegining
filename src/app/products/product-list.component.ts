@@ -1,9 +1,8 @@
 import { Component, OnInit } from "@angular/core";
 import { IProduct, Product } from "./product";
-import { IOptionsValues } from "selenium-webdriver/chrome";
+import { ProductService } from "./product.service";
 
 @Component({
-    selector: 'pm-products',
     templateUrl:'./product-list.component.html',
     styleUrls:['./product-list.component.css']
 })
@@ -12,6 +11,7 @@ export class ProductListComponent implements OnInit{
     imageWidth: number=50;
     imageMargin: number=2;
     showImage: boolean=false;
+    errorMessage: string;
 
     _listFilter: string;
     get listFilter(): string{
@@ -24,32 +24,14 @@ export class ProductListComponent implements OnInit{
     }
 
     filteredProducts: IProduct[];
-    products: IProduct[] =[
-        {
-            "productId": 2,
-            "productName": "Garden Cart",
-            "productCode": "GDN-0023",
-            "releaseDate": "March 18, 2016",
-            "description": "15 gallon capacity rolling garden cart",
-            "price": 32.99,
-            "starRating": 4.2,
-            "imageUrl": "https://openclipart.org/image/300px/svg_to_png/58471/garden_cart.png"
-          },
-          {
-            "productId": 5,
-            "productName": "Hammer",
-            "productCode": "TBX-0048",
-            "releaseDate": "May 21, 2016",
-            "description": "Curved claw steel hammer",
-            "price": 8.9,
-            "starRating": 4.8,
-            "imageUrl": "https://openclipart.org/image/300px/svg_to_png/73/rejon_Hammer.png"
-          }
-    ];
+    products: IProduct[] =[];
 
-    constructor(){
-        this.filteredProducts = this.products;
-        this.listFilter = 'cart';
+    constructor(private productService: ProductService){
+
+    }
+
+    onRatingClicked(message: string): void {
+        this.pageTitle = 'Product List: '+ message;
     }
 
     // filter the search
@@ -64,7 +46,17 @@ export class ProductListComponent implements OnInit{
     }
 
     ngOnInit(): void{
-        console.log('In OnInit');
+        this.productService.getProducts().subscribe(
+            products =>{
+                this.products = products;
+                this.filteredProducts = this.products;
+            }, 
+            
+            // any is a casting operator
+            error => this.errorMessage = <any>error
+        );
+        
+
     }
 
 }
