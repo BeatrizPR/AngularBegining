@@ -26,13 +26,13 @@ import { WelcomeComponent } from './home/welcome.component';
     HttpClientModule,
     RouterModule.forRoot([
       {path: 'products', component: ProductListComponent },
-      {path: 'products/:id', component: ProductDetailComponent},
+      {path: 'product/:id', component:ProductDetailComponent },
       {path: 'welcome', component: WelcomeComponent},
       {path: '', redirectTo: 'welcome', pathMatch: 'full'},
       // path ** is usually used for not found page, error 404, 
         // but now in this example, we redirect to welcome page
       {path: '**', redirectTo: 'welcome', pathMatch: 'full'}
-    ], {useHash: true})
+    ])
   ],
   bootstrap: [AppComponent]
 })
