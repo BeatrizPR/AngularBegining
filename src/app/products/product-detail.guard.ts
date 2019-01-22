@@ -9,7 +9,6 @@ export class ProductDetailGuard implements CanActivate {
 
   constructor(private router: Router) {
     
-
   }
   canActivate(
     // info about current route

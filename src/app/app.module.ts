@@ -6,23 +6,21 @@ import{ RouterModule} from '@angular/router';
 import { AppComponent } from './app.component';
 import { WelcomeComponent } from './home/welcome.component';
 import { ProductModule } from './products/product.module';
+import { AppRoutingModule } from './app-routing.module';
 
 @NgModule({
   declarations: [
     AppComponent,
-    WelcomeComponent
+    WelcomeComponent,
   ],
   imports: [
     BrowserModule,
     HttpClientModule,
-    RouterModule.forRoot([
-      {path: 'welcome', component: WelcomeComponent},
-      {path: '', redirectTo: 'welcome', pathMatch: 'full'},
-      // path ** is usually used for not found page, error 404, 
-        // but now in this example, we redirect to welcome page
-      {path: '**', redirectTo: 'welcome', pathMatch: 'full'}
-    ]),
-    ProductModule
+    // 1º search in path of product
+    ProductModule,
+    // after search application path  including the wildcard route
+    AppRoutingModule
+    
   ],
   bootstrap: [AppComponent]
 })
